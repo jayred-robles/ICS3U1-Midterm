@@ -60,7 +60,9 @@ public class MidtermProject{
 		String strForce2;
 		
 		Font fntOswald = con.loadFont("Oswald-Bold.ttf", 100);
-		con.setDrawFont(fntOswald);
+		
+		Font fntOswald2 = con.loadFont("Oswald-Bold.ttf", 25);
+		
 		
 		while ((!strCourse.equals("competitively")) && (!strCourse.equals("fun"))){
 			con.setTextColor(Color.BLACK);
@@ -161,14 +163,14 @@ public class MidtermProject{
 				con.sleep(7000);
 			}else{
 				con.clear();
-				con.setTextColor(Color.BLACK);
+				con.setTextColor(Color.RED);
 				S9(con);
 				con.sleep(7000);
 			}
 		}else{
 			con.clear();
-			con.println("You drive to Angus Glen Golf Club to play in a golf tournament!");
-			
+			con.setTextColor(Color.WHITE);
+			S10(con);
 			con.println("Enter your name in the registration form");
 			strName = con.readLine();
 			
@@ -179,14 +181,18 @@ public class MidtermProject{
 			if(strLetter.equals("z")){
 				while((!strMoney.equals("golf")) && (!strMoney.equals("money"))){
 				con.clear();
-				con.println("Your name is special and win $1000!");
+				S11(con);
 				con.println("Do you leave to spend the 'money' or continue to play 'golf'");
 				strMoney = con.readLine();
 				}
 				if(strMoney.equals("money")){
 					con.clear();
 					con.println("You leave the tournament and spend the money");
-					con.println("THE END");
+					con.sleep(3000);
+					con.setDrawColor(Color.RED);
+					con.setDrawFont(fntOswald);
+					con.repaint();
+					con.drawString("THE END", 450, 200);
 					con.sleep(5000);
 					con.closeConsole();
 				}else{
@@ -195,11 +201,13 @@ public class MidtermProject{
 				}
 				
 			con.clear();
-			con.println("You successfully enter the tournament and head to the first hole.");
-			con.println("pick a draw you want to start at");
-				
-			con.setDrawColor(Color.white);
+			S13(con);
+			con.setDrawColor(new Color (152, 225, 225));;
 			con.fillRect(542,546,98,36);
+			con.setDrawColor(Color.BLACK);
+			con.setDrawFont(fntOswald2);
+			con.repaint();
+			con.drawString("Draw", 542, 546);
 			
 			while(strDraw.equals("")){
 				intMouseX = con.currentMouseX();
@@ -221,8 +229,7 @@ public class MidtermProject{
 			
 			intDraw = (int)(Math.random()*10.00)+1;
 			
-			con.setDrawColor(Color.black);
-			con.fillRect(540,544,102,40);
+			S13(con);
 
 			con.clear();
 			con.println("Your order number is: "+intDraw);
@@ -369,7 +376,9 @@ public class MidtermProject{
 		}
 		con.clear();
 		con.setDrawColor(Color.RED);
-			con.drawString("THE END", 450, 200);
+		con.setDrawFont(fntOswald);
+		con.repaint();
+		con.drawString("THE END", 450, 200);
 	}	
 
 public static void S1(Console con){
@@ -417,6 +426,25 @@ public static void S32(Console con){
 public static void Iron(Console con){
 	BufferedImage imgIron = con.loadImage("Iron.jpg");
 	con.drawImage(imgIron, 0, 0);
+	con.repaint();
+}
+public static void S10(Console con){
+	BufferedImage imgS10 = con.loadImage("AG.jpg");
+	con.println("You drive to Angus Glen Golf Club to play in a golf tournament!");
+	con.drawImage(imgS10, 0, 0);
+	con.repaint();
+}
+public static void S11(Console con){
+	BufferedImage imgS11 = con.loadImage("Name.jpg");
+	con.println("Your name is special and win $1000!");
+	con.drawImage(imgS11, 0, 0);
+	con.repaint();
+}
+public static void S13(Console con){
+	BufferedImage imgS13 = con.loadImage("Draw.jpg");
+	con.println("You successfully enter the tournament and head to the first hole.");
+	con.println("pick a draw you want to start at");
+	con.drawImage(imgS13, 0, 0);
 	con.repaint();
 }
 
