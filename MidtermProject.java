@@ -1,54 +1,70 @@
 import arc.*;
+import java.awt.image.BufferedImage;
 import java.awt.Color;
+import java.awt.Font;
 
 public class MidtermProject{
 	public static void main(String [] args){
-		Console con = new Console("Game Name",1280,720);
+		Console con = new Console("Golfing Day",1280,720);
 		
 		//Variables
 		String strCourse;
-		strCourse = "";
-		double dblAcceleration;
-		int intLoopCount1;
-		intLoopCount1 = 0;
-		int intScore;
-		int intTotal; 
-		intTotal = 0;
-		int intAverage;
-		int intIron;
-		intIron = 0;
 		String strName;
 		String strLetter;
-		int intNameLength;
 		String strMoney;
-		strMoney = "";
 		String strDraw;
-		strDraw = "";
-		int intMouseX;
-		int intMouseY;
-		int intCurrentMouseButton;
-		int intDraw;
-		char charAgain;
-		charAgain = 0;
-		double dblTime;
-		int intStrokes;
-		intStrokes = 0;
-		int intYards;
-		String strForce1;
-		String strForce2;
+		
+		double dblAcceleration;
 		double dblV1;
 		double dblV1y;
 		double dblV1x;
 		double dblt;
 		double dblFinal;
-		char charTrust;
-		charTrust = 0;
 		double dblDistance;
-
+		double dblTime;
+		
+		int intLoopCount1;
+		int intScore;
+		int intTotal; 
+		int intAverage;
+		int intIron;
+		int intNameLength;
+		int intMouseX;
+		int intMouseY;
+		int intCurrentMouseButton;
+		int intDraw;
+		int intStrokes;
+		int intYards;
+		int intBallY;
+		int intCount;
+		
+		char charAgain;
+		char charTrust;
+		
+		intTotal = 0;
+		intLoopCount1 = 0;
+		intIron = 0;
+		intStrokes = 0;
+		intBallY = 490;
+		intCount = 0;
+		
+		charAgain = 0;
+		charTrust = 0;
+		
+		strMoney = "";
+		strDraw = "";
+		strCourse = "";
+		
+		
+		String strForce1;
+		String strForce2;
+		
+		Font fntOswald = con.loadFont("Oswald-Bold.ttf", 100);
+		con.setDrawFont(fntOswald);
 		
 		while ((!strCourse.equals("competitively")) && (!strCourse.equals("fun"))){
-			con.println("WELCOME TO GOLFING DAY!");
-			con.println("You wake up early in the morning to enjoy a day of golf.");
+			con.setTextColor(Color.BLACK);
+			S1(con);
 			con.println("Do you want to play 'competitively' or for 'fun'?");
 			strCourse = con.readLine();
 			con.clear();
@@ -56,9 +72,8 @@ public class MidtermProject{
 		
 		if(strCourse.equals("fun")){
 			con.clear();
-			con.println("You decide to go to Bushwood Golf course!");
-			con.println("You drive on a busy road to Bushwood, but a deer crosses the road");
-			con.println("in front of you as you drive. If you are travelling at 40km/h,");
+			con.setTextColor(Color.RED);
+			S2(con);
 			con.println("at what rate should you decelerate (m/s^2) to avoid crashing into the deer");
 			con.println("that is 50 m away?");
 			con.println("(Round final answer to 1 SD)");
@@ -66,8 +81,8 @@ public class MidtermProject{
 			
 			if(dblAcceleration == 1){
 				con.clear();
-				con.println("You don't hit the deer and slow down safely.");
-				con.println("You then arrive at Bushwood.");
+				con.setTextColor(Color.BLACK);
+				S3(con);
 				con.println("Enter your 5 most recent scores in golf");
 				for(intLoopCount1 = 1; intLoopCount1 <= 5; intLoopCount1++){
 					con.print("Enter score "+intLoopCount1+": ");
@@ -79,8 +94,9 @@ public class MidtermProject{
 				if(intAverage > 15){
 					
 					while((intIron != 4) && (intIron !=7) && (intIron != 9)){
+						con.setTextColor(Color.BLACK);
 						con.println("Your average is: "+intAverage);
-						con.println("You go practice at the driving range to get better at golfing!");
+						S4(con);
 						con.println("Which iron would you want to use at the driving range? (4,7, or 9):");
 						intIron = con.readInt();
 						con.clear();
@@ -90,16 +106,45 @@ public class MidtermProject{
 						con.clear();
 						con.println("You choose the "+intIron+" Iron!");
 						con.println("You spend the day practicing your long-range shots.");
+						
+						while(intBallY > - 200){
+						Iron(con);
+						con.setDrawColor(Color.WHITE);
+						con.fillOval(520,intBallY, 50, 50);
+						intBallY = intBallY - 25;
+						con.sleep(12);
+						con.repaint();
+						}
 						con.sleep(5000);
 					}else if(intIron == 7){
 						con.clear();
+						Iron(con);
 						con.println("You choose the "+intIron+" Iron!");
 						con.println("You spend the day practicing your mid-range shots.");
+						
+						while(intBallY > 75){
+						Iron(con);
+						con.setDrawColor(Color.WHITE);
+						con.fillOval(520,intBallY, 50, 50);
+						intBallY = intBallY - 15;
+						con.sleep(12);
+						con.repaint();
+						}
 						con.sleep(5000);
 					}else{
 						con.clear();
+						Iron(con);
 						con.println("You choose the "+intIron+" Iron!");
 						con.println("You spend the day practicing your short-range shots.");
+						
+						while(intBallY > 250){
+						Iron(con);
+						con.setDrawColor(Color.WHITE);
+						con.fillOval(520,intBallY, 50, 50);
+						intBallY = intBallY - 5;
+						con.sleep(12);
+						con.repaint();
+						}
 						con.sleep(5000);
 						
 					}
@@ -111,13 +156,13 @@ public class MidtermProject{
 				
 			}else if(dblAcceleration < 1){
 				con.clear();
-				con.println("You do not slow down fast enough and hit the deer.");
-				con.println("You then have to cancel your golf trip.");
+				con.setTextColor(Color.WHITE);
+				S32(con);
 				con.sleep(7000);
 			}else{
 				con.clear();
-				con.println("You slow down too quickly and a car behind you rear ends you.");
-				con.println("You have to repair your car and cancel your golfing plans.");
+				con.setTextColor(Color.BLACK);
+				S9(con);
 				con.sleep(7000);
 			}
 		}else{
@@ -173,25 +218,18 @@ public class MidtermProject{
 				}
 			}
 			
+			
 			intDraw = (int)(Math.random()*10.00)+1;
 			
-			while((charAgain != 'y') && (charAgain != 'n')){
-				con.clear();
-				con.println("Your assigned number in the order is: "+intDraw);
-				con.println("Would you like to draw again? ('y' or 'n')");
-				charAgain = con.readChar();
-			}
-			
-			if(charAgain == 'y'){
-				con.clear();
-				intDraw = (int)(Math.random()*10.00)+1;
-				con.println("Your position is now: "+intDraw);
-				con.sleep(5000);
-			}else{
-			}
+			con.setDrawColor(Color.black);
+			con.fillRect(540,544,102,40);
+
 			con.clear();
+			con.println("Your order number is: "+intDraw);
+			con.sleep(3000);
 			
 			if(intDraw > 5){
+				con.clear();
 				con.println("You are one of the last golfers to play. While waiting,");
 				con.println("you record the time it takes until it is your turn.");
 				con.println("What is the uncertainty in this measurement?");
@@ -216,6 +254,7 @@ public class MidtermProject{
 			}
 			
 			con.clear();
+			con.println("Welcome to the tournament "+strName+"!");
 			con.println("The first hole is 560 yards away from the tee. How many");
 			con.println("significant digits are in that measurement?");
 			intYards = con.readInt();
@@ -288,7 +327,7 @@ public class MidtermProject{
 				con.sleep(5000);
 			}
 			
-			dblDistance = ((Math.round(dblV1x * dblt)*100.00)/100.00);
+			dblDistance = (Math.round((dblV1x * dblt)*100.00)/100.00);
 			
 			while(charTrust != 'y' && charTrust != 'n'){
 			con.clear();
@@ -329,9 +368,58 @@ public class MidtermProject{
 			}
 		}
 		con.clear();
-		con.println("THE END");
+		con.setDrawColor(Color.RED);
+			con.drawString("THE END", 450, 200);
 	}	
+
+public static void S1(Console con){
+	BufferedImage imgS1 = con.loadImage("GolfSunrise1.jpg");
+	con.println("WELCOME TO GOLFING DAY!");
+	con.println("You wake up early in the morning to enjoy a day of golf.");
+	con.drawImage(imgS1, 0, 0);
+	con.repaint();
+}
+public static void S2(Console con){
+	BufferedImage imgS2 = con.loadImage("DeerRoad.jpg");
+	con.println("You decide to go to Bushwood Golf course!");
+	con.println("You drive on a busy road to Bushwood, but a deer crosses the road");
+	con.println("in front of you as you drive. If you are travelling at 40km/h,");
+	con.drawImage(imgS2, 0, 0);
+	con.repaint();
+}
+public static void S3(Console con){
+	BufferedImage imgS3 = con.loadImage("Bushwood.jpg");
+	con.println("You don't hit the deer and slow down safely.");
+	con.println("You then arrive at Bushwood.");
+	con.drawImage(imgS3, 0, 0);
+	con.repaint();
+}
+public static void S4(Console con){
+	BufferedImage imgS4 = con.loadImage("Range.jpg");
+	con.println("You go practice at the driving range to get better at golfing!");
+	con.drawImage(imgS4, 0, 0);
+	con.repaint();
+}
+public static void S9(Console con){
+	BufferedImage imgS9 = con.loadImage("Crash.jpg");
+	con.println("You slow down too quickly and a car behind you rear ends you.");
+	con.println("You have to repair your car and cancel your golfing plans.");
+	con.drawImage(imgS9, 0, 0);
+	con.repaint();
+}
+public static void S32(Console con){
+	BufferedImage imgS32 = con.loadImage("Death.jpg");
+	con.println("You do not slow down fast enough and hit the deer.");
+	con.println("You then have to cancel your golf trip.");
+	con.drawImage(imgS32, 0, 0);
+	con.repaint();
+}
+public static void Iron(Console con){
+	BufferedImage imgIron = con.loadImage("Iron.jpg");
+	con.drawImage(imgIron, 0, 0);
+	con.repaint();
 }
 
+}
 
 
