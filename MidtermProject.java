@@ -13,6 +13,8 @@ public class MidtermProject{
 		String strLetter;
 		String strMoney;
 		String strDraw;
+		String strForce1;
+		String strForce2;
 		
 		double dblAcceleration;
 		double dblV1;
@@ -36,7 +38,12 @@ public class MidtermProject{
 		int intStrokes;
 		int intYards;
 		int intBallY;
-		int intCount;
+		int intRain;
+		int intWowX;
+		int intWowY;
+		int intGravity;
+		int intBallX;
+		
 		
 		char charAgain;
 		char charTrust;
@@ -46,7 +53,12 @@ public class MidtermProject{
 		intIron = 0;
 		intStrokes = 0;
 		intBallY = 490;
-		intCount = 0;
+		intRain = -200;
+		intWowX = 400;
+		intWowY = 100;
+		
+		intGravity = -25;
+		intBallX = 100;
 		
 		charAgain = 0;
 		charTrust = 0;
@@ -56,8 +68,8 @@ public class MidtermProject{
 		strCourse = "";
 		
 		
-		String strForce1;
-		String strForce2;
+		
+		BufferedImage imgRain = con.loadImage("Rain.png");
 		
 		Font fntOswald = con.loadFont("Oswald-Bold.ttf", 100);
 		
@@ -152,6 +164,7 @@ public class MidtermProject{
 					}
 					
 				}else{
+					con.clear();
 					con.println("You go enjoy a nice and relaxing time golfing!");
 					con.sleep(5000);
 				}
@@ -182,12 +195,24 @@ public class MidtermProject{
 				while((!strMoney.equals("golf")) && (!strMoney.equals("money"))){
 				con.clear();
 				S11(con);
+				con.println("YOU HAVE A SPECIAL NAME. You win $1000!");
 				con.println("Do you leave to spend the 'money' or continue to play 'golf'");
 				strMoney = con.readLine();
 				}
 				if(strMoney.equals("money")){
 					con.clear();
 					con.println("You leave the tournament and spend the money");
+					while(intRain < 780){
+						S11(con);
+						con.drawImage(imgRain, 1200, intRain);
+						con.drawImage(imgRain, 900, intRain);
+						con.drawImage(imgRain, 600, intRain);
+						con.drawImage(imgRain, 300, intRain);
+						con.drawImage(imgRain, 0, intRain);
+						intRain = intRain + 5;
+						con.sleep(12);
+						con.repaint();
+						}
 					con.sleep(3000);
 					con.setDrawColor(Color.RED);
 					con.setDrawFont(fntOswald);
@@ -237,22 +262,32 @@ public class MidtermProject{
 			
 			if(intDraw > 5){
 				con.clear();
-				con.println("You are one of the last golfers to play. While waiting,");
-				con.println("you record the time it takes until it is your turn.");
+				S14(con);
 				con.println("What is the uncertainty in this measurement?");
 				dblTime = con.readDouble();
 				
 				if(dblTime == 0.01){
 					con.clear();
+					con.setTextColor(Color.RED);
 					con.println("Correct! An official is impressed and gives you an advantage");
 					con.println("It is now your turn.");
+					while(intWowY < 1000){
+						S15(con);
+						con.setDrawColor(Color.WHITE);
+						con.setDrawFont(fntOswald);
+						con.repaint();
+						con.drawString("WOW!", intWowX, intWowY);
+						intWowX = intWowX - 2;
+						intWowY = intWowY + 5;
+						con.sleep(12);
+						con.repaint();
+						}
 					intStrokes = intStrokes - 1;
-					con.sleep(3000);
+					con.sleep(5000);
 				}else{
 					con.clear();
-					con.println("Wrong! A random bystander looks in disappointment");
-					con.println("It is now your turn.");
-					con.sleep(3000);
+					S16(con);
+					con.sleep(5000);
 				}
 			}else{
 				con.println("You are one of the first golfers to begin");
@@ -261,53 +296,69 @@ public class MidtermProject{
 			}
 			
 			con.clear();
+			con.setTextColor(Color.BLACK);
 			con.println("Welcome to the tournament "+strName+"!");
-			con.println("The first hole is 560 yards away from the tee. How many");
+			S17(con);
 			con.println("significant digits are in that measurement?");
 			intYards = con.readInt();
 			
 			if(intYards == 2){
+				con.clear();
+				Hit(con);
+				con.setTextColor(Color.WHITE);
 				con.println("Correct! Your shot hits your target with ease!");
 				intStrokes = intStrokes + 1;
 				con.sleep(5000);
 				
 			}else{
+				con.clear();
+				Miss(con);
+				con.setTextColor(Color.WHITE);
 				con.println("Wrong! Your shot does not take that into account and you miss your target.");
 				intStrokes = intStrokes + 2;
 				con.sleep(5000);
 			}
 			con.clear();
-			
-			con.println("A few holes later, the conditions get very windy.");
+			con.setTextColor(Color.WHITE);
+			S20(con);
 			con.println("What 2 forces do you need to consider that will be applied to the ball in the air?");
 			strForce1 = con.readLine();
 			strForce2 = con.readLine();
 			
 			if(strForce1.equals(strForce2)){
 				con.clear();
+				Miss(con);
+				con.setTextColor(Color.WHITE);
 				con.println("Wrong!, you can't answer the same thing twice! You miss.");
 				intStrokes = intStrokes + 2;
 				con.sleep(5000);
 			}else if(strForce1.equals("gravity") || strForce1.equals("air resistance")){
 				if(strForce2.equals("gravity") || strForce2.equals("air resistance")){
 					con.clear();
+					Hit(con);
+					con.setTextColor(Color.WHITE);
 					con.println("Correct! Even in the windy conditions you still had a great shot!");
 					intStrokes = intStrokes + 1;
 					con.sleep(5000);
 				}else{
 					con.clear();
+					Miss(con);
+					con.setTextColor(Color.WHITE);
 					con.println("Wrong! You did not think about all of the forces. You miss");
 					intStrokes = intStrokes + 2;
 					con.sleep(5000);
 				}	
 			}else{
 				con.clear();
+				Miss(con);
+				con.setTextColor(Color.WHITE);
 				con.println("Wrong! You did not think about all of the forces. You miss");
 				intStrokes = intStrokes + 2;
 				con.sleep(5000);
 			}
 			con.clear();
-			con.println("You then play at the final hole");
+			con.setTextColor(Color.WHITE);
+			S23(con);
 			con.println("How fast can you make your golf ball travel? (m/s),");
 			dblV1 = con.readDouble();
 			
@@ -316,6 +367,19 @@ public class MidtermProject{
 			dblt = (Math.round((dblV1y/4.9)*100.00))/100.00;
 			
 			con.clear();
+			con.setTextColor(Color.WHITE);
+			intBallY = 530;
+			while(intBallY <= 530){
+				S24(con);
+				con.setDrawColor(Color.WHITE);
+				con.fillOval(intBallX,intBallY, 50, 50);
+				intBallX = intBallX + 21;
+				intBallY = intBallY + intGravity;
+				intGravity = intGravity + 1;
+				con.sleep(12);
+				con.repaint();
+				}
+			con.setTextColor(Color.BLACK);
 			con.println("You want the ball to be hit at a 45-degree angle up to");
 			con.println("achieve maximum distance. With an initial velocity with your top speed: "+dblV1+" m/s");
 			con.println("how many seconds will the ball be in the air for?");
@@ -324,11 +388,15 @@ public class MidtermProject{
 			
 			if(dblFinal == dblt){
 				con.clear();
+				Hit(con);
+				con.setTextColor(Color.WHITE);
 				con.println("Wow! right on!");
 				intStrokes = intStrokes + 1;
 				con.sleep(5000);
 			}else{
 				con.clear();
+				Miss(con);
+				con.setTextColor(Color.WHITE);
 				con.println("Oh no! You miscalculated your shot.");
 				intStrokes = intStrokes + 2;
 				con.sleep(5000);
@@ -338,22 +406,29 @@ public class MidtermProject{
 			
 			while(charTrust != 'y' && charTrust != 'n'){
 			con.clear();
+			S27(con);
+			con.setTextColor(Color.WHITE);
 			con.println("For the final shot, a man on the side tells you that your shot will go "+dblDistance+"m.");
 			con.println("Do you trust him? ('y' or 'n')");
 			charTrust = con.readChar();
 			}
 			if(charTrust == 'y'){
 				con.clear();
+				Hit(con);
+				con.setTextColor(Color.WHITE);
 				con.println("He was right! The ball goes right into the final hole.");
 				intStrokes = intStrokes + 1;
 				con.sleep(5000);
 			}else{
 				con.clear();
+				Miss(con);
+				con.setTextColor(Color.WHITE);
 				con.println("He was right! The ball misses the final hole. Be more trusting!");
 				intStrokes = intStrokes + 3;
 				con.sleep(5000);
 			}
 			con.clear();
+			con.setTextColor(Color.WHITE);
 			con.println("The final results are in, and you end up with a score of: "+intStrokes);
 			con.println("What a great score!, but is it enough to win");
 			con.sleep(1000);
@@ -366,11 +441,16 @@ public class MidtermProject{
 			
 			if(intStrokes > 4){
 				con.clear();
-				con.println("You don't place first in the tournament. You lose, better luck next time.");
+				con.setTextColor(Color.WHITE);
+				Lose(con);
 				con.sleep(5000);
 			}else{
 				con.clear();
-				con.println("CONGRATULATIONS, YOU WIN THE TOURNAMENT!!!");
+				Win(con);
+				con.setDrawColor(Color.YELLOW);
+				con.setDrawFont(fntOswald);
+				con.repaint();
+				con.drawString("YOU WIN!", 450, 200);
 				con.sleep(5000);
 			}
 		}
@@ -436,7 +516,6 @@ public static void S10(Console con){
 }
 public static void S11(Console con){
 	BufferedImage imgS11 = con.loadImage("Name.jpg");
-	con.println("Your name is special and win $1000!");
 	con.drawImage(imgS11, 0, 0);
 	con.repaint();
 }
@@ -445,6 +524,74 @@ public static void S13(Console con){
 	con.println("You successfully enter the tournament and head to the first hole.");
 	con.println("pick a draw you want to start at");
 	con.drawImage(imgS13, 0, 0);
+	con.repaint();
+}
+public static void S14(Console con){
+	BufferedImage imgS14 = con.loadImage("Time.jpg");
+	con.println("You are one of the last golfers to play. While waiting,");
+	con.println("you record the time it takes until it is your turn.");
+	con.drawImage(imgS14, 0, 0);
+	con.repaint();
+}
+public static void S15(Console con){
+	BufferedImage imgS15 = con.loadImage("Ref.jpg");
+	con.drawImage(imgS15, 0, 0);
+	con.repaint();
+}
+public static void S16(Console con){
+	BufferedImage imgS16 = con.loadImage("Crowd.jpg");
+	con.println("Wrong! The crowd looks in disappointment.");
+	con.println("It is now your turn.");
+	con.drawImage(imgS16, 0, 0);
+	con.repaint();
+}
+public static void S17(Console con){
+	BufferedImage imgS17 = con.loadImage("SD.jpg");
+	con.println("The first hole is 560 yards away from the tee. How many");
+	con.drawImage(imgS17, 0, 0);
+	con.repaint();
+}
+public static void S20(Console con){
+	BufferedImage imgS20 = con.loadImage("Wind.jpg");
+	con.println("A few holes later, the conditions get very windy.");
+	con.drawImage(imgS20, 0, 0);
+	con.repaint();
+}
+public static void S23(Console con){
+	BufferedImage imgS23 = con.loadImage("FinalHole.jpg");
+	con.println("You then come to the final hole.");
+	con.drawImage(imgS23, 0, 0);
+	con.repaint();
+}
+public static void S24(Console con){
+	BufferedImage imgS24 = con.loadImage("PM.jpg");
+	con.drawImage(imgS24, 0, 0);
+	con.repaint();
+}
+public static void S27(Console con){
+	BufferedImage imgS24 = con.loadImage("Tiger.jpg");
+	con.drawImage(imgS24, 0, 0);
+	con.repaint();
+}
+public static void Miss(Console con){
+	BufferedImage imgMiss = con.loadImage("Miss.jpg");
+	con.drawImage(imgMiss, 0, 0);
+	con.repaint();
+}
+public static void Hit(Console con){
+	BufferedImage imgHit = con.loadImage("Hit.jpg");
+	con.drawImage(imgHit, 0, 0);
+	con.repaint();
+}
+public static void Win(Console con){
+	BufferedImage imgWin = con.loadImage("Win.jpg");
+	con.drawImage(imgWin, 0, 0);
+	con.repaint();
+}
+public static void Lose(Console con){
+	BufferedImage imgLose = con.loadImage("Lose.jpg");
+	con.println("You don't place first in the tournament. You lose, better luck next time.");
+	con.drawImage(imgLose, 0, 0);
 	con.repaint();
 }
 
