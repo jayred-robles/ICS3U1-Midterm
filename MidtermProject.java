@@ -469,14 +469,10 @@ public class MidtermProject{
 			con.println("How fast can you make your golf ball travel? (m/s),");
 			dblV1 = con.readDouble();
 			con.repaint();
-			
-			//value for time, V1X, and V1Y
-			dblV1y = dblV1*Math.sin(Math.PI/4);
-			dblV1x = dblV1*Math.cos(Math.PI/4);
-			dblt = (Math.round((dblV1y/4.9)*100.00))/100.00;
-			
 			con.clear();
+			
 			con.setTextColor(Color.WHITE);
+			
 			
 			//Animation for golf ball (projectile motion)
 			while(intBallY <= 530){
@@ -493,11 +489,24 @@ public class MidtermProject{
 				
 			//Input time (value changes depending on input for V1)
 			con.setTextColor(Color.BLACK);
+			
+			//If velocity is negative, velocity is set to 0
+			if(dblV1 < 0){
+				dblV1 = 0;
+				con.println("Since velocity is negative, ball is shot towards the ground, not going anywhere.");
+				
+			}
+			
 			con.println("You want the ball to be hit at a 45-degree angle up to");
 			con.println("achieve maximum distance. With an initial velocity with your top speed: "+dblV1+" m/s");
 			con.println("how many seconds will the ball be in the air for?");
 			con.println("(assume on flat ground, no air resistance and round to 2DP)");
 			dblFinal = con.readDouble();
+			
+			//value for time, V1X, and V1Y
+			dblV1y = dblV1*(Math.sin(Math.PI/4));
+			dblV1x = dblV1*(Math.cos(Math.PI/4));
+			dblt = (Math.round((dblV1y/4.9)*100.00))/100.00;
 			
 			//if correct, only 1 stroke added
 			if(dblFinal == dblt){
